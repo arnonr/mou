@@ -30,6 +30,12 @@ class Mou extends Model
         'updated_at',
         'updated_by',
         'deleted_at',
+        'host_contact_name',
+        'host_contact_phone',
+        'host_contact_email',
+        'partner_contact_name',
+        'partner_contact_phone',
+        'partner_contact_email',
     ];
 
     // public function host()

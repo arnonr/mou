@@ -21,7 +21,7 @@ class MouController extends Controller
                 'mou.name as name',
                 'mou.partner as partner',
                 DB::raw("(CASE WHEN partner_logo_file = NULL THEN 'http://localhost:8105/storage/mou/logo/scg.png'
-                    ELSE CONCAT('".uploadUrl."','mou/logo/scg.png') END) AS partner_logo_file"),
+                    ELSE CONCAT('".uploadUrl."',partner_logo_file) END) AS partner_logo_file"),
                 DB::raw("(CASE WHEN mou_file = NULL THEN NULL
                     ELSE CONCAT('".uploadUrl."',mou_file) END) AS mou_file"),
                 'mou.host_id as host_id',
@@ -42,11 +42,19 @@ class MouController extends Controller
                 'host.name_en AS host_name_en',
                 'country.ct_nameTHA AS country_name',
                 'country.ct_nameENG AS country_name_en',
+                'mou.partner_contact_name as partner_contact_name',
+                'mou.partner_contact_phone as partner_contact_phone',
+                'mou.partner_contact_email as partner_contact_email',
+                'mou.host_contact_name as host_contact_name',
+                'mou.host_contact_phone as host_contact_phone',
+                'mou.host_contact_email as host_contact_email',
                 // 'mou.deleted_at as deleted_at', 
                 // 'mou.created_at as created_at', 
                 // 'mou.created_by as created_by', 
                 // 'mou.updated_at as updated_at',
                 // 'mou.updated_by as updated_by',
+                DB::raw("DATEDIFF(end_date, NOW()) AS remain_date"),
+
             )->join('host','mou.host_id','=','host.id')
             ->join('country','mou.country_code','=','country.ct_code')
             // ->with(['host','country'])
@@ -108,6 +116,7 @@ class MouController extends Controller
 
         if($request->orderBy){
             $items = $items->orderBy($request->orderBy, $request->order);
+            
         }else{
             $items = $items->orderBy('id', 'desc');
         }
@@ -132,32 +141,46 @@ class MouController extends Controller
     public function get($id)
     {
         // User DB
-        $data = Mou::select(
+        $item = Mou::select(
             'mou.id as id',
             'mou.name as name',
             'mou.partner as partner',
-            'partner_logo_file',
-            'mou_file',
-            'mou.host_id as	host_id',
+            DB::raw("(CASE WHEN partner_logo_file = NULL THEN 'http://localhost:8105/storage/mou/logo/scg.png'
+                ELSE CONCAT('".uploadUrl."',partner_logo_file) END) AS partner_logo_file"),
+            DB::raw("(CASE WHEN mou_file = NULL THEN NULL
+                ELSE CONCAT('".uploadUrl."',mou_file) END) AS mou_file"),
+            'mou.host_id as host_id',
             'mou.country_code as country_code',
             'mou.start_date as start_date',
             'mou.end_date as end_date',
-            'mou.address as address',
+            DB::raw("(CASE WHEN end_date < NOW() THEN 'inActive'
+                WHEN DATEDIFF(end_date, NOW()) <= 7 THEN 'warning'
+                ELSE 'active'
+            END) AS status"),
             'mou.type as type',
+            DB::raw("(CASE WHEN mou.type = 1 THEN 'ในประเทศ'
+                ELSE 'ต่างประเทศ'
+            END) AS type_name"),
+            'mou.address as address',
             'mou.is_publish as is_publish',
-            'mou.deleted_at as deleted_at', 
-            'mou.created_at as created_at', 
-            'mou.created_by as created_by', 
-            'mou.updated_at as updated_at',
-            'mou.updated_by as updated_by',
-        )
-        ->with(['host','country'])
-        ->where('id', $id)
+            'host.name AS host_name',
+            'host.name_en AS host_name_en',
+            'country.ct_nameTHA AS country_name',
+            'country.ct_nameENG AS country_name_en',
+            'mou.partner_contact_name as partner_contact_name',
+            'mou.partner_contact_phone as partner_contact_phone',
+            'mou.partner_contact_email as partner_contact_email',
+            'mou.host_contact_name as host_contact_name',
+            'mou.host_contact_phone as host_contact_phone',
+            'mou.host_contact_email as host_contact_email',
+        )->join('host','mou.host_id','=','host.id')
+        ->join('country','mou.country_code','=','country.ct_code')
+        ->where('mou.id', $id)
         ->first();
         
         return response()->json([
             'message' => 'success',
-            'data' => $data,
+            'data' => $item,
         ], 200);
     }
 
@@ -171,8 +194,7 @@ class MouController extends Controller
             'type as required',
             'is_publish as required',
         ]);
-
-
+        
         // Save File Success
         $pathPartnerLogo = null;
         if(($request->partner_logo_file != "") && ($request->partner_logo_file != 'null')){
@@ -208,6 +230,12 @@ class MouController extends Controller
         $data->address = $request->address;
         $data->type = $request->type;
         $data->is_publish = $request->is_publish;
+        $data->partner_contact_name = $request->partner_contact_name;
+        $data->partner_contact_phone = $request->partner_contact_phone;
+        $data->partner_contact_email = $request->partner_contact_email;
+        $data->host_contact_name = $request->host_contact_name;
+        $data->host_contact_phone = $request->host_contact_phone;
+        $data->host_contact_email = $request->host_contact_email;
         $data->created_by = 'arnonr';
         $data->save();
 
@@ -222,7 +250,6 @@ class MouController extends Controller
     public function edit($id, Request $request)
     {
         $request->validate([
-            'id as required',
             'name as required',
             'partner as required',
             'host_id as required',
@@ -230,16 +257,46 @@ class MouController extends Controller
             'type as required',
             'is_publish as required',
         ]);
+        
+        $data = Mou::where('id',$id)->first();
 
-        $data = Project::where('id', $id)->first();
+        // Save File Success
+        $pathPartnerLogo = null;
+        if(($request->partner_logo_file != "") && ($request->partner_logo_file != 'null')){
+            $fileNamePartnerLogo = 'logo-'.rand(10,100).'-'.$request->partner_logo_file->getClientOriginalName();
+            $pathPartnerLogo = '/mou/logo/'.$fileNamePartnerLogo;
+            Storage::disk('public')->put($pathPartnerLogo, file_get_contents($request->partner_logo_file));
+        }else{
+            $pathPartnerLogo = $data->partner_logo_file;
+        }
+
+        $pathMou = null;
+        if(($request->mou_file != "") && ($request->mou_file != 'null')){
+            $fileNameMou = 'document-'.rand(10,100).'-'.$request->mou_file->getClientOriginalName();
+            $pathMou = '/mou/document/'.$fileNameMou;
+            Storage::disk('public')->put($pathMou, file_get_contents($request->mou_file));
+        }else{
+            $pathMou = $data->mou_file;
+        }
 
         $data->name = $request->name;
         $data->partner = $request->partner;
+        $data->partner_logo_file = $pathPartnerLogo;
+        $data->mou_file = $pathMou;
         $data->host_id = $request->host_id;
         $data->country_code = $request->country_code;
+        $data->start_date = $request->start_date;
+        $data->end_date = $request->end_date;
+        $data->address = $request->address;
         $data->type = $request->type;
         $data->is_publish = $request->is_publish;
-        $data->updated_by = 'arnonr';
+        $data->partner_contact_name = $request->partner_contact_name;
+        $data->partner_contact_phone = $request->partner_contact_phone;
+        $data->partner_contact_email = $request->partner_contact_email;
+        $data->host_contact_name = $request->host_contact_name;
+        $data->host_contact_phone = $request->host_contact_phone;
+        $data->host_contact_email = $request->host_contact_email;
+        $data->created_by = 'arnonr';
         $data->save();
 
         $responseData = [

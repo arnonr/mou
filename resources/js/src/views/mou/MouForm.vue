@@ -102,6 +102,8 @@
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
+
+              
               <b-form-group class="col-md">
                 <validation-provider
                   #default="{ errors }"
@@ -254,7 +256,9 @@
             <div class="row">
               <b-form-group class="col-md">
                 <validation-provider #default="{ errors }" name="Partner Logo">
-                  <label for="partner_logo_file">รูปโลโก้/Partner Logo:</label>
+                  <label for="partner_logo_file"
+                    >รูปโลโก้/Partner Logo (ขนาดไฟล์ 595x360):</label
+                  >
                   <b-input-group>
                     <b-input-group-prepend>
                       <b-button

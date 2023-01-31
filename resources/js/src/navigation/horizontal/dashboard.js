@@ -5,12 +5,20 @@ export default [
       action: "read",
   },
   {
-      title: "Mou",
+      title: "ความร่วมมือ/Mou",
       route: "lists",
       icon: "FileTextIcon",
       resource: "Auth",
       action: "read",
   },
+
+  {
+    title: "รายงาน/Report",
+    route: "lists",
+    icon: "FileTextIcon",
+    resource: "Auth",
+    action: "read",
+},
   // {
   //     title: "Report PI",
   //     route: "report-pi",
