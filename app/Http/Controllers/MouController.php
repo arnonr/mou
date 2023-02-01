@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 const uploadUrl = "http://localhost:8105/storage/";
+const uploadUrlReal = "http://143.198.208.110:8105/storage/";
 
 class MouController extends Controller
 {
