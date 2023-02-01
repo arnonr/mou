@@ -404,10 +404,11 @@ label {
               >
                 <validation-provider
                   #default="{ errors }"
-                  name="Host Partner Name"
+                  name="Partner Contact Name"
+                  rule="required"
                 >
                   <b-form-input
-                    id="host_partner_name"
+                    id="partner_contact_name"
                     placeholder=""
                     v-model="item.partner_contact_name"
                     :state="errors.length > 0 ? false : null"
@@ -500,6 +501,7 @@ label {
                 <validation-provider
                   #default="{ errors }"
                   name="Host Contact Name"
+                  rule="required"
                 >
                   <b-form-input
                     id="host_contact_name"
@@ -521,6 +523,7 @@ label {
                 <validation-provider
                   #default="{ errors }"
                   name="Host Contact Phone"
+                  rule="required"
                 >
                   <b-form-input
                     id="host_contact_phone"
@@ -542,6 +545,7 @@ label {
                 <validation-provider
                   #default="{ errors }"
                   name="Host Contact Email"
+                  rule="required"
                 >
                   <b-form-input
                     id="host_contact_email"

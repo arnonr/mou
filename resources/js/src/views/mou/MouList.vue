@@ -328,7 +328,7 @@ export default {
 
 <style lang="scss">
 .mou-item-card {
-  border: 4px solid;
+  border: 15px solid;
 }
 .mou-item-active {
   border-color: #99cc33;
