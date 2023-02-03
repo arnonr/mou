@@ -36,6 +36,7 @@ import mouStoreModule from "./mouStoreModule";
 
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import { getUserData } from "@/auth/utils";
 
 export default {
   components: {
@@ -95,7 +96,8 @@ export default {
     };
 
     const items = ref([]);
-
+    const isAdmin = getUserData().type == "admin" ? true : false;
+    const isStaff = getUserData().type == "staff" ? true : false;
     const isOverLay = ref(false);
     const perPage = ref({ title: "10", code: 10 });
     const currentPage = ref(1);
@@ -106,7 +108,6 @@ export default {
       code: "start_date",
     });
     const order = ref({ title: "DESC", code: "desc" });
-    const showBtnAdmin = true;
 
     const advancedSearch = reactive({
       name: "",
@@ -320,7 +321,8 @@ export default {
       totalPage,
       onChangePage,
       dayjs,
-      showBtnAdmin,
+      isAdmin,
+      isStaff
     };
   },
 };
@@ -533,7 +535,7 @@ label {
               </b-form-group>
 
               <b-button
-                v-if="showBtnAdmin"
+                v-if="isAdmin || isStaff"
                 variant="success"
                 @click="$router.push({ name: 'mou-add' })"
                 class="float-right"

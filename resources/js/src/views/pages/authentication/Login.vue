@@ -1,62 +1,54 @@
 <template>
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
-
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
+        <!-- <vuexy-logo /> -->
         <h2 class="brand-text text-primary ml-1">
-          Vuexy
+          <b-img
+            fluid
+            :src="logoImg"
+            alt="Login V2"
+            style="width: 50px; margin-right: 10px"
+          />
+          MOU
         </h2>
       </b-link>
       <!-- /Brand logo-->
 
       <!-- Left Text-->
-      <b-col
-        lg="8"
-        class="d-none d-lg-flex align-items-center p-5"
-      >
-        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
-          <b-img
-            fluid
-            :src="imgUrl"
-            alt="Login V2"
-          />
+      <b-col lg="8" class="d-none d-lg-flex align-items-center p-5">
+        <div
+          class="w-100 d-lg-flex align-items-center justify-content-center px-5"
+        >
+          <b-img fluid :src="imgUrl" alt="Login V2" />
         </div>
       </b-col>
       <!-- /Left Text-->
 
       <!-- Login-->
-      <b-col
-        lg="4"
-        class="d-flex align-items-center auth-bg px-2 p-lg-5"
-      >
-        <b-col
-          sm="8"
-          md="6"
-          lg="12"
-          class="px-xl-2 mx-auto"
-        >
-          <b-card-title
-            class="mb-1 font-weight-bold"
-            title-tag="h2"
-          >
-            Welcome to Vuexy! 👋
+      <b-col lg="4" class="d-flex align-items-center auth-bg px-2 p-lg-5">
+        <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
+          <b-card-title class="mb-1 font-weight-bold" title-tag="h2">
+            MOU
           </b-card-title>
           <b-card-text class="mb-2">
-            Please sign-in to your account and start the adventure
+            กรุณาเข้าใช้งานด้วย ICIT Account
           </b-card-text>
 
-          <b-alert
-            variant="primary"
-            show
-          >
+          <!-- <b-alert variant="primary" show>
             <div class="alert-body font-small-2">
               <p>
-                <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>
+                <small class="mr-50"
+                  ><span class="font-weight-bold">Admin:</span> admin@demo.com |
+                  admin</small
+                >
               </p>
               <p>
-                <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>
+                <small class="mr-50"
+                  ><span class="font-weight-bold">Client:</span> client@demo.com
+                  | client</small
+                >
               </p>
             </div>
             <feather-icon
@@ -64,36 +56,27 @@
               icon="HelpCircleIcon"
               size="18"
               class="position-absolute"
-              style="top: 10; right: 10;"
+              style="top: 10; right: 10"
             />
-          </b-alert>
+          </b-alert> -->
 
           <!-- form -->
-          <validation-observer
-            ref="loginForm"
-            #default="{invalid}"
-          >
-            <b-form
-              class="auth-login-form mt-2"
-              @submit.prevent="login"
-            >
+          <validation-observer ref="loginForm" #default="{ invalid }">
+            <b-form class="auth-login-form mt-2" @submit.prevent="login">
               <!-- email -->
-              <b-form-group
-                label="Email"
-                label-for="login-email"
-              >
+              <b-form-group label="ICIT Account" label-for="login-username">
                 <validation-provider
                   #default="{ errors }"
-                  name="Email"
-                  vid="email"
-                  rules="required|email"
+                  name="username"
+                  vid="username"
+                  rules="required"
                 >
                   <b-form-input
-                    id="login-email"
-                    v-model="userEmail"
-                    :state="errors.length > 0 ? false:null"
-                    name="login-email"
-                    placeholder="john@example.com"
+                    id="login-username"
+                    v-model="username"
+                    :state="errors.length > 0 ? false : null"
+                    name="login-username"
+                    placeholder="pattamak"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -103,7 +86,10 @@
               <b-form-group>
                 <div class="d-flex justify-content-between">
                   <label for="login-password">Password</label>
-                  <b-link :to="{name:'auth-forgot-password'}">
+                  <b-link
+                    href="https://account.kmutnb.ac.th/web/recovery/index"
+                    target="_blank"
+                  >
                     <small>Forgot Password?</small>
                   </b-link>
                 </div>
@@ -115,12 +101,12 @@
                 >
                   <b-input-group
                     class="input-group-merge"
-                    :class="errors.length > 0 ? 'is-invalid':null"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
                   >
                     <b-form-input
                       id="login-password"
                       v-model="password"
-                      :state="errors.length > 0 ? false:null"
+                      :state="errors.length > 0 ? false : null"
                       class="form-control-merge"
                       :type="passwordFieldType"
                       name="login-password"
@@ -160,59 +146,17 @@
               </b-button>
             </b-form>
           </validation-observer>
-
-          <b-card-text class="text-center mt-2">
-            <span>New on our platform? </span>
-            <b-link :to="{name:'auth-register'}">
-              <span>&nbsp;Create an account</span>
-            </b-link>
-          </b-card-text>
-
-          <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
-
-          <!-- social buttons -->
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
         </b-col>
       </b-col>
-    <!-- /Login-->
+      <!-- /Login-->
     </b-row>
   </div>
 </template>
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import VuexyLogo from "@core/layouts/components/Logo.vue";
 import {
   BRow,
   BCol,
@@ -229,18 +173,18 @@ import {
   BButton,
   BAlert,
   VBTooltip,
-} from 'bootstrap-vue'
-import useJwt from '@/auth/jwt/useJwt'
-import { required, email } from '@validations'
-import { togglePasswordVisibility } from '@core/mixins/ui/forms'
-import store from '@/store/index'
-import { getHomeRouteForLoggedInUser } from '@/auth/utils'
+} from "bootstrap-vue";
+import useJwt from "@/auth/jwt/useJwt";
+import { required, email } from "@validations";
+import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import store from "@/store/index";
+import { getHomeRouteForLoggedInUser } from "@/auth/utils";
 
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
 export default {
   directives: {
-    'b-tooltip': VBTooltip,
+    "b-tooltip": VBTooltip,
   },
   components: {
     BRow,
@@ -264,73 +208,80 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      status: '',
-      password: 'admin',
-      userEmail: 'admin@demo.com',
-      sideImg: require('@/assets/images/pages/login-v2.svg'),
-
+      status: "",
+      password: "",
+      username: "",
+      sideImg: require("@/assets/images/pages/login-v2.svg"),
+      logoImg: require("@/assets/images/logo/logo-sci.png"),
       // validation rules
       required,
       email,
-    }
+    };
   },
   computed: {
     passwordToggleIcon() {
-      return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
+      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
     },
     imgUrl() {
-      if (store.state.appConfig.layout.skin === 'dark') {
+      if (store.state.appConfig.layout.skin === "dark") {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/login-v2-dark.svg')
-        return this.sideImg
+        this.sideImg = require("@/assets/images/pages/login-v2-dark.svg");
+        return this.sideImg;
       }
-      return this.sideImg
+      return this.sideImg;
     },
   },
   methods: {
     login() {
-      this.$refs.loginForm.validate().then(success => {
+      this.$refs.loginForm.validate().then((success) => {
         if (success) {
           useJwt
             .login({
-              email: this.userEmail,
+              username: this.username,
               password: this.password,
             })
-            .then(response => {
-              const { userData } = response.data
-              useJwt.setToken(response.data.accessToken)
-              useJwt.setRefreshToken(response.data.refreshToken)
-              localStorage.setItem('userData', JSON.stringify(userData))
-              this.$ability.update(userData.ability)
+            .then((response) => {
+              if (response.data.message === "success") {
+                const { userData } = response.data;
+                console.log(userData.role)
+                useJwt.setToken(response.data.accessToken);
+                useJwt.setRefreshToken(response.data.refreshToken);
+                localStorage.setItem("userData", JSON.stringify(userData));
+                this.$ability.update(userData.ability);
 
-              // ? This is just for demo purpose as well.
-              // ? Because we are showing eCommerce app's cart items count in navbar
-              this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
+                console.log(userData.role)
 
-              // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
-              this.$router.replace(getHomeRouteForLoggedInUser(userData.role)).then(() => {
-                this.$toast({
-                  component: ToastificationContent,
-                  position: 'top-right',
-                  props: {
-                    title: `Welcome ${userData.fullName || userData.username}`,
-                    icon: 'CoffeeIcon',
-                    variant: 'success',
-                    text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                  },
-                })
-              })
+                // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
+                this.$router
+                  .replace(getHomeRouteForLoggedInUser(userData.role))
+                  .then(() => {
+                    this.$toast({
+                      component: ToastificationContent,
+                      position: "top-right",
+                      props: {
+                        title: `Welcome ${
+                          userData.fullName || userData.username
+                        }`,
+                        icon: "CoffeeIcon",
+                        variant: "success",
+                        text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+                      },
+                    });
+                  });
+              } else {
+                this.$toast.error(response.data.message);
+              }
             })
-            .catch(error => {
-              this.$refs.loginForm.setErrors(error.response.data.error)
-            })
+            .catch((error) => {
+              this.$refs.loginForm.setErrors(error.response.data.error);
+            });
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
-@import '~@resources/scss/vue/pages/page-auth.scss';
+@import "~@resources/scss/vue/pages/page-auth.scss";
 </style>
