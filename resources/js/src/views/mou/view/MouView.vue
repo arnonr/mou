@@ -135,11 +135,14 @@ export default {
         label: "ไฟล์",
         sortable: true,
       },
-      {
+    ];
+
+    if (isAdmin || isStaff) {
+      activityFields.push({
         key: "action",
         label: "ดำเนินการ",
-      },
-    ];
+      });
+    }
     const activityItems = ref([]);
 
     const activityItem = ref({
@@ -659,10 +662,10 @@ h6,
       </b-row>
 
       <b-row>
-        <b-col class="col-md-12">
+        <b-col class="col-md-12" v-if="isAdmin || isStaff">
           <b-button
             type="button"
-            variant="warning"
+            variant="outline-warning"
             class="float-right mb-1"
             @click="handleAddActivityClick()"
           >
@@ -699,7 +702,7 @@ h6,
               </b-button>
             </template>
 
-            <template #cell(action)="row">
+            <template #cell(action)="row" v-if="isAdmin || isStaff">
               <b-button
                 v-if="showBtnAdmin"
                 variant="outline-success"
@@ -726,22 +729,23 @@ h6,
       </b-row>
 
       <b-row>
-        <b-col class="mt-4">
+        <b-col class="mt-4" v-if="isAdmin || isStaff">
           <b-button
             type="button"
-            variant="primary"
+            variant="outline-primary"
             @click="
               $router.push({
                 name: 'mou-edit',
                 params: { id: item.id },
               })
             "
+            v-if="isAdmin || isStaff"
           >
             Edit MOU</b-button
           >
           <b-button
             type="button"
-            variant="danger"
+            variant="outline-danger"
             @click="onConfirmDelete(item.id)"
             v-if="isAdmin"
           >

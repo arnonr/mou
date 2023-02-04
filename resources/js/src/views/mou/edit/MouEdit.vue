@@ -27,7 +27,7 @@ import router from "../../../router";
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
-import { onUnmounted, ref, reactive } from "@vue/composition-api";
+import { onUnmounted, ref, reactive, watch } from "@vue/composition-api";
 import store from "@/store";
 import mouStoreModule from "../mouStoreModule";
 
@@ -298,6 +298,21 @@ export default {
           overLay.value = false;
         });
     };
+
+    watch(
+      () => item.type,
+      (value) => {
+        if (value.code == 1) {
+          item.country_code = { title: "ไทย (Thailand)", code: "THA" };
+        } else {
+          if (item.country_code.hasOwnProperty("code")) {
+            if (item.country_code.code == "THA") {
+              item.country_code = { title: null, code: null };
+            }
+          }
+        }
+      }
+    );
 
     return {
       item,

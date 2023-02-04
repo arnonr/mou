@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar-container main-menu-content">
+  <div class="navbar-container main-menu-content" style="margin-left: 6rem;">
     <horizontal-nav-menu-items :items="navMenuItems" />
   </div>
 </template>

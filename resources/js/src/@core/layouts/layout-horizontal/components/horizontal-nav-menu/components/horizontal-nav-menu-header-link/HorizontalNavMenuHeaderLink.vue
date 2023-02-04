@@ -4,8 +4,10 @@
     class="nav-item"
     :class="{'sidebar-group-active active': isActive}"
   >
+
     <b-link
       class="nav-link"
+      v-if="item.route"
       :to="{ name: item.route }"
     >
       <feather-icon
@@ -14,6 +16,21 @@
       />
       <span>{{ t(item.title) }}</span>
     </b-link>
+
+    <b-link
+      class="nav-link"
+      v-if="item.href"
+      :href="item.href"
+    >
+      <feather-icon
+        size="14"
+        :icon="item.icon"
+      />
+      <span>{{ t(item.title) }}</span>
+    </b-link>
+
+
+    
   </li>
 </template>
 

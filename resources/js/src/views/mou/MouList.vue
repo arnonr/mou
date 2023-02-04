@@ -131,7 +131,7 @@ export default {
       advancedSearch.end_date = null;
       advancedSearch.type = null;
       advancedSearch.status = null;
-      advancedSearch.is_publish = { title: "Publish", code: 1 };
+      // advancedSearch.is_publish = { title: "Publish", code: 1 };
     };
 
     const selectOptions = ref({
@@ -350,6 +350,7 @@ export default {
 <style lang="scss">
 .mou-item-card {
   border: 10px solid;
+  cursor: pointer;
 }
 .mou-item-active {
   border-color: #99cc33;
@@ -374,6 +375,7 @@ label {
 
 <template>
   <div class="container-lg">
+
     <!-- Search -->
     <b-card>
       <div class="m-2">
@@ -568,7 +570,7 @@ label {
             <b-col
               v-for="(it, key) of items"
               :key="it.id"
-              class="col-md-3 col-sm-6 col-lg-3"
+              class="col-md-4 col-sm-6 col-lg-3"
             >
               <b-card
                 :class="'mou-item-card pa-2 mou-item-' + it.status"

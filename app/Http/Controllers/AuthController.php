@@ -90,7 +90,9 @@ class AuthController extends Controller
                     'subject'=> 'User',
                 ]);
 
-                if($userDB->type == 'staff'){
+                if($userDB->type == 'user'){
+                    $role = 'user';
+                }else if($userDB->type == 'staff'){
                     $role = 'staff';
                     array_push($ability, [
                         'action' => 'manage',

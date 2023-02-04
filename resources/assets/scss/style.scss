@@ -45,9 +45,24 @@ body {
     background-color: #ffcb05;
 }
 
-.horizontal-menu .header-navbar.navbar-horizontal.floating-nav {
-    top: 50px !important;
-    width: calc(100vw - (100vw - 100%) - calc(2rem * 1)) !important;
+.header-navbar .navbar-container ul.navbar-nav li > a.nav-link {
+    color: #000;
 }
 
+.horizontal-menu .header-navbar.navbar-horizontal.floating-nav {
+    top: 43px !important;
+    width: calc(100vw - (100vw - 100%) - calc(1rem * 0)) !important;
+    background: #ffcb05 !important;
+}
+
+.horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li.active > a {
+    // background: none !important;
+    // text-decoration: underline;
+    // rgba(253, 221, 91, 0.7)
+    // rgba(255, 203, 5, 0.7);
+    // background: linear-gradient(118deg, #ffffff, rgba(255, 203, 5, 0.7)) !important;
+    background: #f8f8f8 !important;
+    border-radius: 4px !important;
+    color: #000 !important;
+}
 // $font-family: "Gill Sans Extrabold", sans-serif;

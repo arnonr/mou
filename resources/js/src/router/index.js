@@ -24,17 +24,22 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
-      name: "lists",
-      component: () => import("@/views/mou/MouList.vue"),
-      meta: {
-        pageTitle: "Mou",
-        breadcrumb: [
-          {
-            text: "Mou",
-            active: true,
-          },
-        ],
+      redirect: to => {
+        // the function receives the target route as the argument
+        // we return a redirect path/location here.
+        return { path: '/list'}
       },
+      // name: "mou-list",
+      // component: () => import("@/views/mou/MouList.vue"),
+      // meta: {
+      //   pageTitle: "Mou",
+      //   breadcrumb: [
+      //     {
+      //       text: "Mou",
+      //       active: true,
+      //     },
+      //   ],
+      // },
     },
     ...mous,
     ...pages,

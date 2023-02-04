@@ -5,17 +5,24 @@ export default [
     action: "read",
   },
   {
-    title: "ความร่วมมือ/Mou",
+    title: "เว็บไซต์/Website",
+    href: "http://sci.kmutnb.ac.th",
+    icon: "ExternalLinkIcon",
+    
+    resource: "Auth",
+    action: "read",
+  },
+  {
+    title: "ความร่วมมือ/MOU",
     route: "mou-list",
     icon: "FileTextIcon",
     resource: "Auth",
     action: "read",
   },
-
   {
     title: "รายงาน/Report",
     route: "report",
-    icon: "FileTextIcon",
+    icon: "PieChartIcon",
     resource: "Auth",
     action: "read",
   },

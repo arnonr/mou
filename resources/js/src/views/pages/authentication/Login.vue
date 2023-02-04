@@ -1,18 +1,25 @@
 <template>
   <div class="auth-wrapper auth-v1 px-2">
-    <b-row class="auth-inner py-2">
+    <div class="auth-inner py-2">
+      <!-- Login v1 -->
       <b-card class="mb-0">
-        <b-link class="brand-logo mb-1">
+        <b-link class="brand-logo mb-1" >
           <b-img
             fluid
             :src="logoImg"
             alt="Login V2"
-            style="width: 50px; margin-right: 10px"
+            style="width: 80%; margin-right: 10px"
           />
         </b-link>
 
-        <b-card-title class="mb-1 text-center" style="font-size: 0.8rem;color:#888"> Sign-in to your account </b-card-title>
+        <b-card-title
+          class="mb-1 text-center"
+          style="font-size: 1rem; color: #888;font-weight: 400;"
+        >
+          Sign-in to your account
+        </b-card-title>
 
+        <!-- form -->
         <validation-observer ref="loginForm" #default="{ invalid }">
           <b-form class="auth-login-form mt-2" @submit.prevent="login">
             <!-- email -->
@@ -49,7 +56,6 @@
               <validation-provider
                 #default="{ errors }"
                 name="Password"
-                vid="password"
                 rules="required"
               >
                 <b-input-group
@@ -57,7 +63,7 @@
                   :class="errors.length > 0 ? 'is-invalid' : null"
                 >
                   <b-form-input
-                    id="login-password"
+                    id="password"
                     v-model="password"
                     :type="passwordFieldType"
                     class="form-control-merge"
@@ -90,37 +96,32 @@
             </b-form-group>
 
             <!-- submit button -->
-            <b-button variant="primary" type="submit" block :disabled="invalid">
+            <b-button variant="primary" type="submit" block :disabled="invalid" class="mt-2">
               Sign in
             </b-button>
           </b-form>
         </validation-observer>
       </b-card>
-    </b-row>
+      <!-- /Login v1 -->
+    </div>
   </div>
 </template>
 
 <script>
-/* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import VuexyLogo from "@core/layouts/components/Logo.vue";
 import {
-  BRow,
-  BCol,
+  BButton,
+  BForm,
+  BFormInput,
+  BFormGroup,
   BCard,
   BLink,
-  BFormGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BInputGroup,
-  BFormCheckbox,
-  BCardText,
   BCardTitle,
+  BCardText,
+  BInputGroup,
+  BInputGroupAppend,
+  BFormCheckbox,
   BImg,
-  BForm,
-  BButton,
-  BAlert,
-  VBTooltip,
 } from "bootstrap-vue";
 import useJwt from "@/auth/jwt/useJwt";
 import { required, email } from "@validations";
@@ -131,28 +132,22 @@ import { getHomeRouteForLoggedInUser } from "@/auth/utils";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
 export default {
-  directives: {
-    "b-tooltip": VBTooltip,
-  },
   components: {
-    BRow,
-    BCol,
-    BLink,
-    BFormGroup,
-    BFormInput,
-    BInputGroupAppend,
-    BInputGroup,
-    BFormCheckbox,
-    BCardText,
-    BCardTitle,
-    BImg,
-    BForm,
+    // BSV
     BButton,
-    BAlert,
-    VuexyLogo,
+    BForm,
+    BFormInput,
+    BFormGroup,
+    BCard,
+    BCardTitle,
+    BLink,
+    BCardText,
+    BInputGroup,
+    BInputGroupAppend,
+    BFormCheckbox,
     ValidationProvider,
     ValidationObserver,
-    BCard,
+    BImg,
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -161,7 +156,7 @@ export default {
       password: "",
       username: "",
       sideImg: require("@/assets/images/pages/login-v2.svg"),
-      logoImg: require("@/assets/images/logo/logo-sci.png"),
+      logoImg: require("@/assets/images/logo/logo-login.jpeg"),
       // validation rules
       required,
       email,

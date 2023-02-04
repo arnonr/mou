@@ -15,7 +15,7 @@ import {
   BSpinner,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { ValidationProvider, ValidationObserver, validate } from "vee-validate";
 import { required, email } from "@validations";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
@@ -26,7 +26,7 @@ import router from "../../../router";
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
-import { onUnmounted, ref, reactive } from "@vue/composition-api";
+import { onUnmounted, ref, reactive, watch } from "@vue/composition-api";
 import store from "@/store";
 import mouStoreModule from "../mouStoreModule";
 
@@ -154,7 +154,7 @@ export default {
         selectOptions.value.countries = data.map((d) => {
           return {
             code: d.ct_code,
-            title: d.ct_nameTHA,
+            title: d.ct_nameTHA + " (" + d.ct_nameENG + ")",
           };
         });
       })
@@ -207,7 +207,10 @@ export default {
           if (response.data.message == "success") {
             localStorage.setItem("added", 1);
             // console.log()
-            router.push({ name: "mou-view", params: { id: response.data.data.id } });
+            router.push({
+              name: "mou-view",
+              params: { id: response.data.data.id },
+            });
           } else {
             toast({
               component: ToastificationContent,
@@ -232,6 +235,17 @@ export default {
           overLay.value = false;
         });
     };
+
+    watch(
+      () => item.type,
+      (value) => {
+        if (value.code == 1) {
+          item.country_code = { title: "ไทย (Thailand)", code: "THA" };
+        } else {
+          item.country_code = { title: null, code: null };
+        }
+      }
+    );
 
     return {
       item,

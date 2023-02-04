@@ -28,6 +28,7 @@
       <user-dropdown />
     </b-navbar-nav>
   </div>
+  
 </template>
 
 <script>
