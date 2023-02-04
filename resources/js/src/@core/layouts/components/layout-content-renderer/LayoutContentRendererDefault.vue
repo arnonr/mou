@@ -1,6 +1,7 @@
 <template>
   <div
     class="app-content content"
+    style="background-color: #fff;"
     :class="[{'show-overlay': $store.state.app.shallShowOverlay}, $route.meta.contentClass]"
   >
     <div class="content-overlay" />
@@ -10,7 +11,7 @@
       :class="contentWidth === 'boxed' ? 'container p-0' : null"
     >
       <slot name="breadcrumb">
-        <app-breadcrumb />
+        <!-- <app-breadcrumb /> -->
       </slot>
       <div class="content-body">
         <transition

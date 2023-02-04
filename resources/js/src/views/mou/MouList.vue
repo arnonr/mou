@@ -117,8 +117,9 @@ export default {
       start_date: null,
       end_date: null,
       type: null,
-      is_publish: { title: "Publish", code: 1 },
+      // is_publish: { title: "Publish", code: 1 },
       status: null,
+      year: null,
     });
 
     const resetAdvancedSearch = () => {
@@ -137,18 +138,18 @@ export default {
       hosts: [],
       countries: [],
       types: [
-        { title: "ในประเทศ", code: 1 },
-        { title: "ต่างประเทศ", code: 2 },
+        { title: "ในประเทศ (Domestic Type)", code: 1 },
+        { title: "ต่างประเทศ (Foreign Type)", code: 2 },
       ],
       statuses: [
         { title: "Active", code: "active" },
         { title: "InActive", code: "inActive" },
         { title: "Warning", code: "warning" },
       ],
-      is_publish: [
-        { title: "Publish", code: 1 },
-        { title: "Non-Publish", code: 0 },
-      ],
+      // is_publish: [
+      //   { title: "Publish", code: 1 },
+      //   { title: "Non-Publish", code: 0 },
+      // ],
       perPage: [
         { title: "1", code: 1 },
         { title: "2", code: 2 },
@@ -170,7 +171,20 @@ export default {
         { title: "ASC", code: "asc" },
         { title: "DESC", code: "desc" },
       ],
+      years: [],
     });
+
+    const yearSelect = dayjs().locale("th").format("BBBB");
+    selectOptions.value.years.push({
+      title: String(yearSelect),
+      code: String(yearSelect),
+    });
+    for (let i = 1; i <= 4; i++) {
+      selectOptions.value.years.push({
+        title: String(parseInt(yearSelect) - i),
+        code: String(parseInt(yearSelect) - i),
+      });
+    }
 
     store
       .dispatch("mou/fetchHosts")
@@ -202,7 +216,7 @@ export default {
         selectOptions.value.countries = data.map((d) => {
           return {
             code: d.ct_code,
-            title: d.ct_nameTHA,
+            title: d.ct_nameTHA + " (" + d.ct_nameENG + ")",
           };
         });
       })
@@ -240,12 +254,17 @@ export default {
           search.status = search.status.code;
         }
       }
-      if (search.is_publish) {
-        if (search.is_publish.hasOwnProperty("code")) {
-          search.is_publish = search.is_publish.code;
+
+      if (search.year) {
+        if (search.year.hasOwnProperty("code")) {
+          search.year = search.year.code;
         }
       }
-      
+      // if (search.is_publish) {
+      //   if (search.is_publish.hasOwnProperty("code")) {
+      //     search.is_publish = search.is_publish.code;
+      //   }
+      // }
 
       isOverLay.value = true;
       store
@@ -322,7 +341,7 @@ export default {
       onChangePage,
       dayjs,
       isAdmin,
-      isStaff
+      isStaff,
     };
   },
 };
@@ -330,7 +349,7 @@ export default {
 
 <style lang="scss">
 .mou-item-card {
-  border: 15px solid;
+  border: 10px solid;
 }
 .mou-item-active {
   border-color: #99cc33;
@@ -351,7 +370,6 @@ export default {
 label {
   font-size: 1rem;
 }
-
 </style>
 
 <template>
@@ -474,18 +492,14 @@ label {
             />
           </b-form-group>
 
-          <b-form-group
-            label="สถานะการเผยแพร่/Publish"
-            label-for="is_publish"
-            class="col-md-4"
-          >
+          <b-form-group label="ปีที่เซ็นสัญญา/Year" label-for="year" class="col-md-4">
             <v-select
-              v-model="advancedSearch.is_publish"
+              v-model="advancedSearch.year"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="title"
               :clearable="true"
-              placeholder="-- All Publish --"
-              :options="selectOptions.is_publish"
+              placeholder="-- All Year --"
+              :options="selectOptions.years"
             />
           </b-form-group>
         </b-row>
@@ -500,7 +514,7 @@ label {
       </div>
     </b-card>
 
-    <b-card no-body>
+    <b-card no-body style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%)">
       <b-overlay :show="isOverLay" opacity="0.3" spinner-variant="primary">
         <!-- Sort -->
         <div class="m-2">
@@ -536,7 +550,7 @@ label {
 
               <b-button
                 v-if="isAdmin || isStaff"
-                variant="success"
+                variant="outline-success"
                 @click="$router.push({ name: 'mou-add' })"
                 class="float-right"
               >
@@ -549,7 +563,7 @@ label {
           <hr />
         </div>
         <!-- List -->
-        <div class="m-2 ">
+        <div class="m-2">
           <b-row>
             <b-col
               v-for="(it, key) of items"
@@ -587,7 +601,9 @@ label {
                     }}
                   </span>
                   <br />
-                  <span style="font-size: 0.9em"> ({{ it.remain_date }} วัน) </span>
+                  <span style="font-size: 0.9em">
+                    ({{ it.remain_date }} วัน)
+                  </span>
                 </b-card-text>
               </b-card>
             </b-col>

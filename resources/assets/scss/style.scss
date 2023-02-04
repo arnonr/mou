@@ -4,3 +4,50 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+@import 'https://fonts.googleapis.com/css?family=Prompt:300,400,500,600,700';
+
+body {
+    font-family: 'Prompt';
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.header-navbar {
+    font-family: 'Prompt';
+}
+
+.button {
+    font-family: 'Prompt';
+}
+
+.brand-text {
+    color: #000 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.01rem ;
+    font-size: 1.2rem !important;
+}
+
+.brand-text-vertical {
+    font-size: 0.8rem !important;
+}
+
+.sub-brand-text {
+    color: #000 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.01rem;
+    font-size: 1rem;
+}
+
+.sub-brand-text-vertical {
+    font-size: 0.6rem !important;
+}
+
+.footer-custom {
+    background-color: #ffcb05;
+}
+
+.horizontal-menu .header-navbar.navbar-horizontal.floating-nav {
+    top: 50px !important;
+    width: calc(100vw - (100vw - 100%) - calc(2rem * 1)) !important;
+}
+
+// $font-family: "Gill Sans Extrabold", sans-serif;

@@ -12,45 +12,7 @@
         <!-- Left Col -->
         <div class="text-center align-items-center ml-auto">
             <b-button
-                :variant="
-                    store.state.project.year.id == 3 ? 'success' : 'info'
-                "
-                @click="
-                    handleChangeYear({
-                        id: 3,
-                        name: '2566',
-                    })
-                "
             >
-                2566
-            </b-button>
-
-            <b-button
-                :variant="
-                    store.state.project.year.id == 2 ? 'success' : 'info'
-                "
-                @click="
-                    handleChangeYear({
-                        id: 2,
-                        name: '2565',
-                    })
-                "
-            >
-                2565
-            </b-button>
-
-            <b-button
-                :variant="
-                    store.state.project.year.id == 1 ? 'success' : 'info'
-                "
-                @click="
-                    handleChangeYear({
-                        id: 1,
-                        name: '2564',
-                    })
-                "
-            >
-                2564
             </b-button>
         </div>
 

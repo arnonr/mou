@@ -510,6 +510,20 @@ export default {
 label {
   font-size: 1rem;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  color: #000;
+}
 </style>
 
 <template>
@@ -523,134 +537,124 @@ label {
       no-center
     >
       <b-row>
-        <b-col class="text-center">
+        <b-col class="text-center mt-2">
           <h3>MOU Information</h3>
+          <hr width="80px;" style="border: solid 2px; border-color: #ffcb05" />
         </b-col>
       </b-row>
       <b-row>
-        <b-col class="mt-2">
+        <b-col class="text-center mt-2 mb-3">
+          <img :src="item.partner_logo_file" alt="" style="max-width: 100%" />
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="pt-1 pb-1 mb-2" style="background-color: #eee">
           <h4>ข้อมูลคู่สัญญา/Partner Information</h4>
-          <hr />
         </b-col>
       </b-row>
+
       <b-row>
-        <b-col class="col-12 col-md-4 col-lg-4">
-          <img :src="item.partner_logo_file" alt="" style="max-width: 100%"
-        /></b-col>
         <b-col>
-          <span class="label">องค์กรคู่สัญญา/Partner Organization: </span>
-          <span class="text-data">{{ item.name }}</span>
+          <span class="label">องค์กรคู่สัญญา/Partner Organization : </span>
+          <span class="text-data font-italic">{{ item.name }}</span>
           <hr />
-          <span class="label">ประเภทความร่วมมือ/MOU Type: </span>
-          <span class="text-data">{{ item.type_name }}</span>
+          <span class="label">ประเภทความร่วมมือ/MOU Type : </span>
+          <span class="text-data font-italic">{{ item.type_name }}</span>
           <hr />
-          <span class="label">ประเทศคู่สัญญา/Partner Country: </span>
-          <span class="text-data">{{ item.country_name }}</span>
+          <span class="label">ประเทศคู่สัญญา/Partner Country : </span>
+          <span class="text-data font-italic">{{ item.country_name }}</span>
           <hr />
-          <span class="label">ที่อยู่คู่สัญญา/Address: </span>
-          <span class="text-data">{{ item.address }}</span>
+          <span class="label">ที่อยู่คู่สัญญา/Address : </span>
+          <span class="text-data font-italic">{{ item.address }}</span>
           <hr />
-          <span class="label">ชื่อผู้ประสานงาน/Partner Contact Name: </span>
-          <span class="text-data"> {{ item.partner_contact_name }}</span>
+          <span class="label">ชื่อผู้ประสานงาน/Partner Contact Name : </span>
+          <span class="text-data font-italic">
+            {{ item.partner_contact_name }}</span
+          >
           <hr />
-          <span class="label">เบอร์ติดต่อ/Partner Contact Phone: </span>
-          <span class="text-data">{{ item.partner_contact_phone }}</span>
+          <span class="label">เบอร์ติดต่อ/Partner Contact Phone : </span>
+          <span class="text-data font-italic">{{
+            item.partner_contact_phone
+          }}</span>
           <hr />
-          <span class="label">เมล/Partner Contact Email: </span>
-          <span class="text-data">{{ item.partner_contact_email }}</span>
+          <span class="label">เมล/Partner Contact Email : </span>
+          <span class="text-data font-italic">{{
+            item.partner_contact_email
+          }}</span>
         </b-col>
       </b-row>
       <!--  -->
       <b-row>
-        <b-col class="mt-4">
+        <b-col class="pt-1 pb-1 mb-2 mt-4" style="background-color: #eee">
           <h4>ข้อมูลหน่วยงานผู้รับผิดชอบ/Host Information</h4>
-          <hr />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col class="col-md-6">
-          <span class="label">หน่วยงาน/Host Organization: </span>
-          <span class="text-data">{{ item.host_name }}</span>
-        </b-col>
-        <b-col class="col-md-6">
-          <span class="label">ชื่อผู้ประสานงาน/Host Contact Name: </span>
-          <span class="text-data">{{ item.host_contact_name }}</span>
         </b-col>
       </b-row>
 
       <b-row>
-        <b-col class="col-md-6">
-          <span class="label">เบอร์ผู้ประสานงาน/Host Contact Phone: </span>
-          <span class="text-data">{{ item.host_contact_phone }}</span>
-        </b-col>
-        <b-col class="col-md-6">
-          <span class="label">เมลผู้ประสานงาน/Host Contact Email: </span>
-          <span class="text-data">{{ item.host_contact_email }}</span>
+        <b-col>
+          <span class="label">หน่วยงาน/Host Organization : </span>
+          <span class="text-data font-italic">{{ item.host_name }}</span>
+          <hr />
+          <span class="label">ชื่อผู้ประสานงาน/Host Contact Name : </span>
+          <span class="text-data font-italic">{{
+            item.host_contact_name
+          }}</span>
+          <hr />
+          <span class="label">เบอร์ผู้ประสานงาน/Host Contact Phone : </span>
+          <span class="text-data font-italic">{{
+            item.host_contact_phone
+          }}</span>
+          <hr />
+          <span class="label">เมลผู้ประสานงาน/Host Contact Email : </span>
+          <span class="text-data font-italic">{{
+            item.host_contact_email
+          }}</span>
         </b-col>
       </b-row>
 
       <!--  -->
       <b-row>
-        <b-col class="mt-4">
+        <b-col class="pt-1 pb-1 mb-2 mt-4" style="background-color: #eee">
           <h4>ข้อมูล MOU/MOU Information</h4>
-          <hr />
         </b-col>
       </b-row>
-      <b-row>
-        <b-col class="col-md-4">
-          <span class="label">ชื่อความร่วมมือ/MOU Name: </span>
-          <span class="text-data">{{ item.name }}</span>
-        </b-col>
 
-        <b-col class="col-md-4">
+      <b-row>
+        <b-col>
+          <span class="label">ชื่อความร่วมมือ/MOU Name : </span>
+          <span class="text-data font-italic">{{ item.name }}</span>
+          <hr />
+          <span class="label">ไฟล์ MOU/File : </span>
+          <span class="text-data font-italic">
+            <b-button
+              v-if="showBtnAdmin"
+              variant="outline-success"
+              alt="เปิดไฟล์แนบ"
+              title="เปิดไฟล์แนบ"
+              class="btn-icon btn-sm"
+              style="margin-bottom: 2px"
+              :href="item.mou_file"
+              target="_blank"
+            >
+              <feather-icon icon="FileIcon" style="margin-bottom: -2px" />
+            </b-button>
+          </span>
+          <hr />
           <span class="label">วันเริ่มสัญญา/Start Date: </span>
           <span class="text-data">{{
             dayjs(item.start_date).locale("th").format("DD/MM/BBBB")
           }}</span>
-        </b-col>
-        <b-col class="col-md-4">
+          <hr />
           <span class="label">วันสิ้นสุดสัญญา/End Date: </span>
           <span class="text-data">{{
             dayjs(item.end_date).locale("th").format("DD/MM/BBBB")
           }}</span>
         </b-col>
       </b-row>
-      <b-row>
-        <b-col class="col-md-12 mt-2">
-          <b-button
-            v-if="showBtnAdmin"
-            variant="outline-success"
-            alt="เปิดไฟล์แนบ"
-            title="เปิดไฟล์แนบ"
-            class="btn-icon btn-sm"
-            style="margin-bottom: 2px"
-            :href="item.mou_file"
-            target="_blank"
-          >
-            <feather-icon icon="FileIcon" style="margin-bottom: -2px" />
-            เปิดไฟล์ MOU
-          </b-button>
-
-          <b-button
-            v-if="showBtnAdmin"
-            variant="outline-success"
-            alt="เปิดไฟล์แนบ"
-            title="เปิดไฟล์แนบ"
-            class="btn-icon btn-sm"
-            style="margin-bottom: 2px"
-            :href="item.mou_file"
-            target="_blank"
-          >
-            <feather-icon icon="FileIcon" style="margin-bottom: -2px" />
-            เปิดไฟล์ MOU
-          </b-button>
-        </b-col>
-      </b-row>
 
       <b-row>
-        <b-col class="mt-4">
+        <b-col class="pt-1 pb-1 mb-2 mt-4" style="background-color: #eee">
           <h4>ข้อมูลกิจกรรมภายใต้ MOU</h4>
-          <hr />
         </b-col>
       </b-row>
 

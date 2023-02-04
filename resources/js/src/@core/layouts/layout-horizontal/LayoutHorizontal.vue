@@ -86,7 +86,7 @@
 
     <!-- Footer -->
     <footer
-      class="footer footer-light"
+      class="footer footer-light footer-custom"
       :class="[footerTypeClass]"
     >
       <slot name="footer">
