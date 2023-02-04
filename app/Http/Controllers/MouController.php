@@ -115,6 +115,11 @@ class MouController extends Controller
             
         }  
 
+        if ($request->year) {
+            $year = $request->year - 543;
+            $items->whereYear('start_date','=', $year);
+        }
+
         if($request->orderBy){
             $items = $items->orderBy($request->orderBy, $request->order);
             
