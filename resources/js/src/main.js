@@ -6,6 +6,7 @@ import i18n from '@/libs/i18n'
 import router from './router'
 import store from './store'
 import App from './App.vue'
+import VCalendar from 'v-calendar';
 
 // Global Components
 import './global-components'
@@ -27,6 +28,10 @@ import '@/@fake-db/db'
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
 
+Vue.use(VCalendar, {
+  componentPrefix: 'vc'
+});
+
 // Composition API
 Vue.use(VueCompositionAPI)
 
@@ -41,6 +46,9 @@ require('@resources/scss/core.scss')
 require('@resources/assets/scss/style.scss')
 
 Vue.config.productionTip = false
+
+
+
 
 new Vue({
   router,

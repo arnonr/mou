@@ -39,6 +39,11 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import { getUserData } from "@/auth/utils";
 
 export default {
+  filters: {
+    formatYear(year, buddhistYear) {
+      return buddhistYear ? +year + 543 : year;
+    },
+  },
   components: {
     BCard,
     BRow,
@@ -66,7 +71,9 @@ export default {
         altFormat: "d/m/Y",
         dateFormat: "Y-m-d",
         locale: Thai,
+        disableMobile: "true",
       },
+      buddhistYear: true,
     };
   },
   setup() {
@@ -326,6 +333,10 @@ export default {
       currentPage.value = page;
     };
 
+    const displayDateInput = (date) => {
+      return date ? dayjs(date).locale("th").format("DD/MM/BBBB") : date;
+    };
+
     return {
       items,
       totalItems,
@@ -342,6 +353,8 @@ export default {
       dayjs,
       isAdmin,
       isStaff,
+      displayDateInput,
+      // formatYear
     };
   },
 };
@@ -375,7 +388,6 @@ label {
 
 <template>
   <div class="container-lg">
-
     <!-- Search -->
     <b-card>
       <div class="m-2">
@@ -492,9 +504,36 @@ label {
               placeholder="End Date"
               :config="configDate"
             />
+
+            <!-- <vc-date-picker
+              v-model="advancedSearch.end_date"
+              locale="th"
+              :masks="{ input: 'DD/MM/YYYY' }"
+            >
+              <template
+                slot="header-title"
+                slot-scope="{ monthLabel, yearLabel }"
+                >{{ monthLabel }}
+                {{ yearLabel | formatYear(buddhistYear) }}</template
+              >
+
+              <template #default="{ inputValue, inputEvents }">
+                <b-form-input
+                  id="end_date"
+                  placeholder="End Date"
+                  :value="displayDateInput(inputValue)"
+                  :readonly="true"
+                  v-on="inputEvents"
+                />
+              </template>
+            </vc-date-picker> -->
           </b-form-group>
 
-          <b-form-group label="ปีที่เซ็นสัญญา/Year" label-for="year" class="col-md-4">
+          <b-form-group
+            label="ปีที่เซ็นสัญญา/Year"
+            label-for="year"
+            class="col-md-4"
+          >
             <v-select
               v-model="advancedSearch.year"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"

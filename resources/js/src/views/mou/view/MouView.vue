@@ -73,6 +73,7 @@ export default {
         altFormat: "d/m/Y",
         dateFormat: "Y-m-d",
         locale: Thai,
+        disableMobile: "true",
       },
     };
   },
@@ -493,6 +494,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .label {
   font-weight: bold;
 }

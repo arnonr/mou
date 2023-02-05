@@ -62,6 +62,7 @@ export default {
         altFormat: "d/m/Y",
         dateFormat: "Y-m-d",
         locale: Thai,
+        disableMobile: "true",
       },
     };
   },
