@@ -10,13 +10,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-const uploadUrl = "http://localhost:8105/storage/";
-const uploadUrlReal = "http://143.198.208.110:8105/storage/";
+const whitelist = ['127.0.0.1', "::1","localhost:8105"];
 
 class ActivityController extends Controller
 {
+    protected $uploadUrl = "http://143.198.208.110:8105/storage/";
     public function getAll(Request $request)
     {
+        if(in_array($_SERVER['HTTP_HOST'], whitelist)){
+            $this->uploadUrl = 'http://localhost:8105/storage/';
+        }
         // User DB
         $items = Activity::select(
                 'activity.id as id',
@@ -25,7 +28,7 @@ class ActivityController extends Controller
                 'activity.start_date as start_date',
                 'activity.end_date as end_date',
                 DB::raw("(CASE WHEN activity_file = NULL THEN NULL
-                    ELSE CONCAT('".uploadUrl."',activity_file) END) AS activity_file"),
+                    ELSE CONCAT('".$this->uploadUrl."',activity_file) END) AS activity_file"),
                 'activity.mou_id as mou_id',
             )
             ->where('activity.deleted_at', null);
@@ -72,6 +75,9 @@ class ActivityController extends Controller
 
     public function get($id)
     {
+        if(in_array($_SERVER['HTTP_HOST'], whitelist)){
+            $this->uploadUrl = 'http://localhost:8105/storage/';
+        }
         // User DB
         $items = Activity::select(
             'activity.id as id',
@@ -80,7 +86,7 @@ class ActivityController extends Controller
             'activity.end_date as end_date',
             'activity.detail as detail',
             DB::raw("(CASE WHEN activity_file = NULL THEN NULL
-                ELSE CONCAT('".uploadUrl."',activity_file) END) AS activity_file"),
+                ELSE CONCAT('".$this->uploadUrl."',activity_file) END) AS activity_file"),
             'activity.mou_id as mou_id',
         )->where('activity.deleted_at', null)
         ->first();
