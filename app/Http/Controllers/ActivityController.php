@@ -110,10 +110,6 @@ class ActivityController extends Controller
             $fileNameActivity = 'activity-'.rand(10,100).'-'.$request->activity_file->getClientOriginalName();
             $pathActivity = '/activity/'.$fileNameActivity;
             Storage::disk('public')->put($pathActivity, file_get_contents($request->activity_file));
-        }else{
-            return response()->json([
-                'message' => 'error Not File Upload'
-            ], 200);
         }
 
         $data = new Activity;

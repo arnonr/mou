@@ -722,14 +722,15 @@ h6,
               {{ dayjs(data.end_date).locale("th").format("DD/MM/BBBB") }}
             </template>
 
-            <template #cell(activity_file)="data">
+            <template #cell(activity_file)="row">
               <b-button
-                variant="outline-primary"
                 alt="เปิดเอกสาร"
                 title="เปิดเอกสาร"
                 class="btn-icon btn-sm"
                 target="_blank"
-                :href="data.value"
+                :href="row.item.activity_file"
+                :disabled="(isAdmin || isStaff) &&  row.item.activity_file != null ? false : true"
+                :variant="(isAdmin || isStaff) &&  row.item.activity_file != null ? 'outline-primary' : 'outline-secondary'"
               >
                 <feather-icon icon="FileIcon" style="margin-bottom: -2px" />
                 <span class="d-none d-xl-inline">เปิดไฟล์แนบ</span>
