@@ -29,6 +29,8 @@ class MouController extends Controller
                     ELSE CONCAT('".$this->uploadUrl."',partner_logo_file) END) AS partner_logo_file"),
                 DB::raw("(CASE WHEN mou_file = NULL THEN NULL
                     ELSE CONCAT('".$this->uploadUrl."',mou_file) END) AS mou_file"),
+                DB::raw("(CASE WHEN mou_word_file = NULL THEN NULL
+                    ELSE CONCAT('".$this->uploadUrl."',mou_word_file) END) AS mou_word_file"),
                 'mou.host_id as host_id',
                 'mou.country_code as country_code',
                 'mou.start_date as start_date',
@@ -53,6 +55,7 @@ class MouController extends Controller
                 'mou.host_contact_name as host_contact_name',
                 'mou.host_contact_phone as host_contact_phone',
                 'mou.host_contact_email as host_contact_email',
+                'mou.remark as remark',
                 // 'mou.deleted_at as deleted_at', 
                 // 'mou.created_at as created_at', 
                 // 'mou.created_by as created_by', 
@@ -163,6 +166,8 @@ class MouController extends Controller
                 ELSE CONCAT('".$this->uploadUrl."',partner_logo_file) END) AS partner_logo_file"),
             DB::raw("(CASE WHEN mou_file = NULL THEN NULL
                 ELSE CONCAT('".$this->uploadUrl."',mou_file) END) AS mou_file"),
+            DB::raw("(CASE WHEN mou_word_file = NULL THEN NULL
+                ELSE CONCAT('".$this->uploadUrl."',mou_word_file) END) AS mou_word_file"),
             'mou.host_id as host_id',
             'mou.country_code as country_code',
             'mou.start_date as start_date',
@@ -187,6 +192,7 @@ class MouController extends Controller
             'mou.host_contact_name as host_contact_name',
             'mou.host_contact_phone as host_contact_phone',
             'mou.host_contact_email as host_contact_email',
+            'mou.remark as remark'
         )->join('host','mou.host_id','=','host.id')
         ->join('country','mou.country_code','=','country.ct_code')
         ->where('mou.id', $id)
@@ -226,10 +232,13 @@ class MouController extends Controller
             $fileNameMou = 'document-'.rand(10,100).'-'.$request->mou_file->getClientOriginalName();
             $pathMou = '/mou/document/'.$fileNameMou;
             Storage::disk('public')->put($pathMou, file_get_contents($request->mou_file));
-        }else{
-            return response()->json([
-                'message' => 'error Not File Upload'
-            ], 200);
+        }
+
+        $pathMouWord = null;
+        if(($request->mou_word_file != "") && ($request->mou_word_file != 'null')){
+            $fileNameMouWord = 'document-'.rand(10,100).'-'.$request->mou_word_file->getClientOriginalName();
+            $pathMouWord = '/mou/document/'.$fileNameMouWord;
+            Storage::disk('public')->put($pathMouWord, file_get_contents($request->mou_word_file));
         }
 
         $data = new Mou;
@@ -237,6 +246,7 @@ class MouController extends Controller
         $data->partner = $request->partner;
         $data->partner_logo_file = $pathPartnerLogo;
         $data->mou_file = $pathMou;
+        $data->mou_word_file = $pathMouWord;
         $data->host_id = $request->host_id;
         $data->country_code = $request->country_code;
         $data->start_date = $request->start_date;
@@ -250,6 +260,7 @@ class MouController extends Controller
         $data->host_contact_name = $request->host_contact_name;
         $data->host_contact_phone = $request->host_contact_phone;
         $data->host_contact_email = $request->host_contact_email;
+        $data->remark = $request->remark;
         $data->created_by = 'arnonr';
         $data->save();
 
@@ -293,10 +304,20 @@ class MouController extends Controller
             $pathMou = $data->mou_file;
         }
 
+        $pathMouWord = null;
+        if(($request->mou_word_file != "") && ($request->mou_word_file != 'null')){
+            $fileNameMouWord = 'document-'.rand(10,100).'-'.$request->mou_word_file->getClientOriginalName();
+            $pathMouWord = '/mou/document/'.$fileNameMouWord;
+            Storage::disk('public')->put($pathMouWord, file_get_contents($request->mou_word_file));
+        }else{
+            $pathMouWord = $data->mou_word_file;
+        }
+
         $data->name = $request->name;
         $data->partner = $request->partner;
         $data->partner_logo_file = $pathPartnerLogo;
         $data->mou_file = $pathMou;
+        $data->mou_word_file = $pathMouWord;
         $data->host_id = $request->host_id;
         $data->country_code = $request->country_code;
         $data->start_date = $request->start_date;
@@ -310,6 +331,7 @@ class MouController extends Controller
         $data->host_contact_name = $request->host_contact_name;
         $data->host_contact_phone = $request->host_contact_phone;
         $data->host_contact_email = $request->host_contact_email;
+        $data->remark = $request->remark;
         $data->created_by = 'arnonr';
         $data->save();
 

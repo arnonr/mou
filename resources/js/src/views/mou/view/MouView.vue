@@ -494,7 +494,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .label {
   font-weight: bold;
 }
@@ -630,10 +629,18 @@ h6,
           <span class="text-data font-italic">{{ item.name }}</span>
           <hr />
           <span class="label">ไฟล์ MOU/File : </span>
-          <span class="text-data font-italic">
+          <span class="text-data">
             <b-button
-              v-if="showBtnAdmin"
-              variant="outline-success"
+              :disabled="
+                (isAdmin || isStaff) && item.mou_file != null
+                  ? false
+                  : true
+              "
+              :variant="
+                (isAdmin || isStaff) && item.mou_file != null
+                  ? 'outline-success'
+                  : 'outline-secondary'
+              "
               alt="เปิดไฟล์แนบ"
               title="เปิดไฟล์แนบ"
               class="btn-icon btn-sm"
@@ -641,19 +648,44 @@ h6,
               :href="item.mou_file"
               target="_blank"
             >
-              <feather-icon icon="FileIcon" style="margin-bottom: -2px" />
+              <feather-icon icon="FileIcon" style="margin-bottom: -2px" /> PDF
+            </b-button>
+            |
+
+            <b-button
+              :disabled="
+                (isAdmin || isStaff) && item.mou_word_file != null
+                  ? false
+                  : true
+              "
+              :variant="
+                (isAdmin || isStaff) && item.mou_word_file != null
+                  ? 'outline-warning'
+                  : 'outline-secondary'
+              "
+              alt="เปิดไฟล์แนบ"
+              title="เปิดไฟล์แนบ"
+              class="btn-icon btn-sm"
+              style="margin-bottom: 2px"
+              :href="item.mou_word_file"
+              target="_blank"
+            >
+              <feather-icon icon="FileIcon" style="margin-bottom: -2px" /> WORD
             </b-button>
           </span>
           <hr />
-          <span class="label">วันเริ่มสัญญา/Start Date: </span>
+          <span class="label">วันเริ่มสัญญา/Start Date : </span>
           <span class="text-data">{{
             dayjs(item.start_date).locale("th").format("DD/MM/BBBB")
           }}</span>
           <hr />
-          <span class="label">วันสิ้นสุดสัญญา/End Date: </span>
+          <span class="label">วันสิ้นสุดสัญญา/End Date : </span>
           <span class="text-data">{{
             dayjs(item.end_date).locale("th").format("DD/MM/BBBB")
           }}</span>
+          <hr />
+          <span class="label">หมายเหตุ : </span>
+          <span class="text-data font-italic">{{ item.remark }}</span>
         </b-col>
       </b-row>
 
@@ -706,7 +738,7 @@ h6,
 
             <template #cell(action)="row" v-if="isAdmin || isStaff">
               <b-button
-                v-if="showBtnAdmin"
+                v-if="isAdmin || isStaff"
                 variant="outline-success"
                 alt="แก้ไข"
                 title="แก้ไข"
@@ -716,7 +748,7 @@ h6,
                 <feather-icon icon="EditIcon" style="margin-bottom: -2px" />
               </b-button>
               <b-button
-                v-if="showBtnAdmin"
+                v-if="isAdmin"
                 @click="handleDeleteActivityClick(row.item.id)"
                 variant="outline-danger"
                 alt="ลบ"

@@ -87,8 +87,10 @@ export default {
       partner: "",
       partner_logo_file: null,
       partner_logo_file_old: null,
-      mou_file_file: null,
+      mou_file: null,
       mou_file_old: null,
+      mou_word_file: null,
+      mou_word_file_old: null,
       host_id: { title: null, code: null },
       country_code: { title: null, code: null },
       start_date: null,
@@ -102,6 +104,7 @@ export default {
       host_contact_name: "",
       host_contact_phone: "",
       host_contact_email: "",
+      remark: "",
     });
 
     const selectOptions = ref({
@@ -187,6 +190,7 @@ export default {
         partner: item.partner,
         partner_logo_file: item.partner_logo_file,
         mou_file: item.mou_file,
+        mou_word_file: item.mou_word_file,
         host_id: item.host_id.code,
         country_code: item.country_code.code,
         start_date: item.start_date,
@@ -200,6 +204,7 @@ export default {
         host_contact_name: item.host_contact_name,
         host_contact_phone: item.host_contact_phone,
         host_contact_email: item.host_contact_email,
+        remark: item.remark
       };
 
       store
@@ -635,7 +640,7 @@ label {
               </b-form-group>
             </b-col>
 
-            <b-col cols="12">
+            <!-- <b-col cols="12">
               <b-form-group
                 label="สถานะการเผยแพร่/Publish:"
                 label-for="is_publish"
@@ -654,19 +659,15 @@ label {
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
-            </b-col>
+            </b-col> -->
 
             <b-col cols="12">
               <b-form-group
-                label="ไฟล์ MOU/MOU File"
+                label="ไฟล์ PDF MOU/MOU File"
                 label-for="mou_file"
                 label-cols-md="4"
               >
-                <validation-provider
-                  name="mou_file"
-                  #default="{ errors }"
-                  rules="required"
-                >
+                <validation-provider name="mou_file" #default="{ errors }">
                   <b-form-file
                     id="mou_file"
                     v-model="item.mou_file"
@@ -674,6 +675,43 @@ label {
                     drop-placeholder="Drop file here..."
                   />
 
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <b-col cols="12">
+              <b-form-group
+                label="ไฟล์ WORD MOU/MOU File (.doc,.docx)"
+                label-for="mou_word_file"
+                label-cols-md="4"
+              >
+                <validation-provider name="mou_word_file" #default="{ errors }">
+                  <b-form-file
+                    id="mou_word_file"
+                    v-model="item.mou_word_file"
+                    placeholder="Choose a file or drop it here..."
+                    drop-placeholder="Drop file here..."
+                  />
+
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <b-col cols="12">
+              <b-form-group
+                label="หมายเหตุ/Remark:"
+                label-for="remark"
+                label-cols-md="4"
+              >
+                <validation-provider #default="{ errors }" name="Remark">
+                  <b-form-textarea
+                    id="remark"
+                    placeholder=""
+                    v-model="item.remark"
+                    :state="errors.length > 0 ? false : null"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>

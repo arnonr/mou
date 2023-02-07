@@ -18,6 +18,7 @@ class Mou extends Model
         'partner',
         'partner_logo_file',
         'mou_file',
+        'mou_word_file',
         'host_id',
         'country_code',
         'start_date',
@@ -36,6 +37,7 @@ class Mou extends Model
         'partner_contact_name',
         'partner_contact_phone',
         'partner_contact_email',
+        'remark',
     ];
 
     // public function host()

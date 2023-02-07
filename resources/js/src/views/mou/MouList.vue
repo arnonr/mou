@@ -106,7 +106,7 @@ export default {
     const isAdmin = getUserData().type == "admin" ? true : false;
     const isStaff = getUserData().type == "staff" ? true : false;
     const isOverLay = ref(false);
-    const perPage = ref({ title: "10", code: 10 });
+    const perPage = ref({ title: "20", code: 20 });
     const currentPage = ref(1);
     const totalPage = ref(1);
     const totalItems = ref(0);
@@ -114,7 +114,7 @@ export default {
       title: "วันเริ่มสัญญา/Start Date",
       code: "start_date",
     });
-    const order = ref({ title: "DESC", code: "desc" });
+    const order = ref({ title: "มาก -> น้อย", code: "desc" });
 
     const advancedSearch = reactive({
       name: "",
@@ -158,11 +158,9 @@ export default {
       //   { title: "Non-Publish", code: 0 },
       // ],
       perPage: [
-        { title: "1", code: 1 },
-        { title: "2", code: 2 },
-        { title: "10", code: 10 },
         { title: "20", code: 20 },
-        { title: "50", code: 50 },
+        { title: "40", code: 40 },
+        { title: "60", code: 60 },
       ],
       orderBy: [
         { title: "องค์กรคู่สัญญา/Partner", code: "partner" },
@@ -175,8 +173,8 @@ export default {
         // { title: "ชื่อความร่วมมือ/MOU Name", code: "name" },
       ],
       order: [
-        { title: "ASC", code: "asc" },
-        { title: "DESC", code: "desc" },
+        { title: "น้อย -> มาก", code: "asc" },
+        { title: "มาก -> น้อย", code: "desc" },
       ],
       years: [],
     });
@@ -186,7 +184,7 @@ export default {
       title: String(yearSelect),
       code: String(yearSelect),
     });
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 9; i++) {
       selectOptions.value.years.push({
         title: String(parseInt(yearSelect) - i),
         code: String(parseInt(yearSelect) - i),
@@ -548,7 +546,7 @@ label {
         <b-row>
           <b-col>
             <b-button variant="outline-danger" @click="resetAdvancedSearch()">
-              reset
+              Clear
             </b-button>
           </b-col>
         </b-row>
@@ -562,6 +560,7 @@ label {
           <b-row>
             <b-col>
               <b-form-group class="float-left col-lg-2">
+                <span>จำนวน MOU ต่อ page</span>
                 <v-select
                   v-model="perPage"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -571,6 +570,7 @@ label {
                 />
               </b-form-group>
               <b-form-group class="float-left col-lg-4">
+                <span>ลักษณะการแสดงผล</span>
                 <v-select
                   v-model="orderBy"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -580,6 +580,7 @@ label {
                 />
               </b-form-group>
               <b-form-group class="float-left col-lg-2">
+                <span>ลำดับการแสดงผล</span>
                 <v-select
                   v-model="order"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -594,6 +595,7 @@ label {
                 variant="outline-success"
                 @click="$router.push({ name: 'mou-add' })"
                 class="float-right"
+                style="margin-top: 1em;"
               >
                 <feather-icon icon="PlusIcon" />
                 ADD
