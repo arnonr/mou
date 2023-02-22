@@ -461,7 +461,7 @@ label {
 
             <b-col cols="12">
               <b-form-group
-                label="เมล/Partner Contact Email:"
+                label="อีเมล/Partner Contact Email:"
                 label-for="partner_contact_email"
                 label-cols-md="4"
               >
@@ -558,7 +558,7 @@ label {
 
             <b-col cols="12">
               <b-form-group
-                label="เมล/Host Contact Email:"
+                label="อีเมล/Host Contact Email:"
                 label-for="host_contact_email"
                 label-cols-md="4"
               >

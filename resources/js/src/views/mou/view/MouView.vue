@@ -581,7 +581,7 @@ h6,
             item.partner_contact_phone
           }}</span>
           <hr />
-          <span class="label">เมล/Partner Contact Email : </span>
+          <span class="label">อีเมล/Partner Contact Email : </span>
           <span class="text-data font-italic">{{
             item.partner_contact_email
           }}</span>
@@ -609,7 +609,7 @@ h6,
             item.host_contact_phone
           }}</span>
           <hr />
-          <span class="label">เมลผู้ประสานงาน/Host Contact Email : </span>
+          <span class="label">อีเมลผู้ประสานงาน/Host Contact Email : </span>
           <span class="text-data font-italic">{{
             item.host_contact_email
           }}</span>
