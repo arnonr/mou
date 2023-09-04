@@ -1,22 +1,29 @@
-import Vue from 'vue'
+import Vue from "vue";
 
 // axios
-import axios from 'axios'
+import axios from "axios";
 
-let baseUrl = "http://143.198.208.110:8105/api";
-if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){
-  baseUrl = "http://localhost:8105/api/";
+
+let urlNew = "";
+if (location.port == "3000") {
+  urlNew = "http://localhost:3000/api/";
+} else {
+  if (location.hostname == "localhost") {
+    urlNew = "http://localhost/mou/api/";
+  } else {
+    urlNew = "http://sci.kmutnb.ac.th/mou/api/";
+  }
 }
 
 const axiosIns = axios.create({
   // You can add your headers here
   // ================================
-  baseURL: baseUrl,
+  baseURL: urlNew,
   // baseURL: 'http://localhost:8105/api/',
   // timeout: 1000,
   // headers: {'X-Custom-Header': 'foobar'}
-})
+});
 
-Vue.prototype.$http = axiosIns
+Vue.prototype.$http = axiosIns;
 
-export default axiosIns
+export default axiosIns;

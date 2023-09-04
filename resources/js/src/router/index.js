@@ -17,7 +17,8 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+//   base: process.env.BASE_URL,
+  base: location.port == '3000' ? process.env.BASE_URL : '/mou',
   scrollBehavior() {
     return { x: 0, y: 0 };
   },
