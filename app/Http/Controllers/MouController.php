@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-const whitelist = ['127.0.0.1', "::1","localhost:8105"];
+const whitelist = ['127.0.0.1', "::1","localhost:3000"];
 
 class MouController extends Controller
 {
-    protected $uploadUrl = 'http://143.198.208.110:8105/storage/';
+    protected $uploadUrl = 'http://sci.kmutnb.ac.th/mou/storage/';
     public function getAll(Request $request)
     {
         if(in_array($_SERVER['HTTP_HOST'], whitelist)){
-            $this->uploadUrl = 'http://localhost:8105/storage/';
+            $this->uploadUrl = 'http://localhost:3000/storage/';
         }
 
         // User DB
